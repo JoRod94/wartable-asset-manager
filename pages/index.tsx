@@ -2,7 +2,6 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { getAssets, newS3Client } from "../api/s3";
 import AssetBrowser from "../components/AssetBrowser";
-import useSTLManager from "../hooks/useSTLManager";
 import styles from "../styles/Home.module.css";
 import { Asset } from "../types";
 
@@ -11,9 +10,6 @@ type Props = {
 };
 
 const Home: NextPage<Props> = ({ assets }) => {
-  const { loadedGeometries, hasLoaded } = useSTLManager(assets);
-
-
   return (
     <div className={styles.container}>
       <Head>
@@ -23,16 +19,20 @@ const Home: NextPage<Props> = ({ assets }) => {
       </Head>
 
       <main className={styles.main}>
-        <h1>Wartable</h1>
-        <h2>Asset Manager</h2>
-        <button
-          onClick={() => {
-            window.alert("New Asset");
-          }}
-        >
-          New Asset
-        </button>
-        <AssetBrowser assets={assets} loadedGeometries={loadedGeometries}/>
+        <div className={styles.topInfo}>
+          <h1>Wartable</h1>
+          <h2>Asset Manager</h2>
+          <button
+            onClick={() => {
+              window.alert("New Asset");
+            }}
+          >
+            New Asset
+          </button>
+        </div>
+        <AssetBrowser
+          assets={assets}
+        />
       </main>
     </div>
   );
