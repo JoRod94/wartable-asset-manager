@@ -1,4 +1,9 @@
-.asset-browser {
+.container {
+  max-height: 100%;
+  width: 100%;
+  margin: 0;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
+  padding-top: 10px;
 }

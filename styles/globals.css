@@ -1,5 +1,9 @@
 html,
 body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 100vh;
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
@@ -13,4 +17,15 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#__next {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }

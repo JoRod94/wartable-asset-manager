@@ -24,10 +24,11 @@ export const getAssets = async (
     ? response.Contents.map((value, _index, _array) => {
         const size = value.Size ? value.Size / 1000000 : 0;
         const roundedSize = Math.round(size * 100) / 100;
+        const name = value.Key ? value.Key.split(".")[0] : "not_found";
         return {
-          name: value.Key,
+          name,
           size: roundedSize,
-          uri: `https://${process.env.S3_BUCKET_NAME}.s3.eu-west-2.amazonaws.com/aasimar.stl`,
+          uri: `https://${process.env.S3_BUCKET_NAME}.s3.eu-west-2.amazonaws.com/${name}.stl`,
         } as S3Asset;
       })
     : null;
