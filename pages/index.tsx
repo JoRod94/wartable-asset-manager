@@ -1,10 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
+import { getAssets, newS3Client } from "../api/s3";
 import AssetBrowser from "../components/AssetBrowser";
 import styles from "../styles/Home.module.css";
+import { S3Asset } from "../types";
 
-const Home: NextPage = () => {
+type Props = {
+  assets: S3Asset[];
+};
+
+const Home: NextPage<Props> = ({ assets }) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -23,10 +28,22 @@ const Home: NextPage = () => {
         >
           New Asset
         </button>
-        <AssetBrowser />
+        <AssetBrowser assets={assets} />
       </main>
     </div>
   );
 };
 
 export default Home;
+
+export const getStaticProps = async () => {
+  const client = newS3Client();
+
+  const assets = await getAssets(client);
+
+  return {
+    props: {
+      assets,
+    },
+  };
+};
