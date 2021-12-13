@@ -5,17 +5,15 @@ export const newS3Client = () => {
   return new S3Client({
     region: "eu-west-2",
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      accessKeyId: process.env.WARTABLE_AWS_ACCESS_KEY!,
+      secretAccessKey: process.env.WARTABLE_AWS_SECRET_ACCESS_KEY!,
     },
   });
 };
 
-export const getAssets = async (
-  client: S3Client
-): Promise<Asset[] | null> => {
+export const getAssets = async (client: S3Client): Promise<Asset[] | null> => {
   const command = new ListObjectsV2Command({
-    Bucket: process.env.S3_BUCKET_NAME,
+    Bucket: process.env.WARTABLE_S3_BUCKET_NAME,
   });
 
   const response = await client.send(command);
@@ -28,7 +26,7 @@ export const getAssets = async (
         return {
           name,
           size: roundedSize,
-          uri: `https://${process.env.S3_BUCKET_NAME}.s3.eu-west-2.amazonaws.com/${name}.stl`,
+          uri: `https://${process.env.WARTABLE_S3_BUCKET_NAME}.s3.eu-west-2.amazonaws.com/${name}.stl`,
         } as Asset;
       })
     : null;
