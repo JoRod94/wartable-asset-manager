@@ -1,5 +1,5 @@
 import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
-import { S3Asset } from "../types";
+import { Asset } from "../types";
 
 export const newS3Client = () => {
   return new S3Client({
@@ -13,7 +13,7 @@ export const newS3Client = () => {
 
 export const getAssets = async (
   client: S3Client
-): Promise<S3Asset[] | null> => {
+): Promise<Asset[] | null> => {
   const command = new ListObjectsV2Command({
     Bucket: process.env.S3_BUCKET_NAME,
   });
@@ -29,7 +29,7 @@ export const getAssets = async (
           name,
           size: roundedSize,
           uri: `https://${process.env.S3_BUCKET_NAME}.s3.eu-west-2.amazonaws.com/${name}.stl`,
-        } as S3Asset;
+        } as Asset;
       })
     : null;
   return assets;

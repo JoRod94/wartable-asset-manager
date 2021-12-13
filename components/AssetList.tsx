@@ -1,16 +1,21 @@
-import { S3Asset } from "../types";
+import { Asset } from "../types";
 import styles from "../styles/AssetList.module.css";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
-  assets: S3Asset[];
+  assets: Asset[];
+  selectAsset: Dispatch<SetStateAction<Asset | undefined>>;
 };
 
-const AssetList: React.FC<Props> = ({ assets }) => (
+const AssetList: React.FC<Props> = ({ assets, selectAsset }) => (
   <div className={styles.container}>
     <ul>
       {assets.map((item) => (
         <li>
-          <div className={styles.assetListItem} onClick={() => {}}>
+          <div
+            className={styles.assetListItem}
+            onClick={() => selectAsset(assets.find((a) => a.name == item.name))}
+          >
             <b>{item.name}</b>
             {item.size} MB
           </div>

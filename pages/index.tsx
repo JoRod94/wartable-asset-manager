@@ -2,14 +2,18 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { getAssets, newS3Client } from "../api/s3";
 import AssetBrowser from "../components/AssetBrowser";
+import useSTLManager from "../hooks/useSTLManager";
 import styles from "../styles/Home.module.css";
-import { S3Asset } from "../types";
+import { Asset } from "../types";
 
 type Props = {
-  assets: S3Asset[];
+  assets: Asset[];
 };
 
 const Home: NextPage<Props> = ({ assets }) => {
+  const { loadedGeometries, hasLoaded } = useSTLManager(assets);
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -28,7 +32,7 @@ const Home: NextPage<Props> = ({ assets }) => {
         >
           New Asset
         </button>
-        <AssetBrowser assets={assets} />
+        <AssetBrowser assets={assets} loadedGeometries={loadedGeometries}/>
       </main>
     </div>
   );
