@@ -12,7 +12,7 @@ const FileUploader: React.FC<Props> = ({ setPendingUpload, pendingUpload }) => {
     useDropzone({
       maxFiles: 1,
       maxSize: 20000000,
-      accept: ".stl",
+      accept: "model/stl",
       disabled: pendingUpload !== undefined,
     });
 

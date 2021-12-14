@@ -8,11 +8,12 @@ import styles from "../styles/Home.module.css";
 import { Asset } from "../types";
 
 type Props = {
-  assets: Asset[];
+  fetchedAssets: Asset[];
 };
 
-const Home: NextPage<Props> = ({ assets }) => {
+const Home: NextPage<Props> = ({ fetchedAssets }) => {
   const [pendingUpload, setPendingUpload] = useState<File | undefined>();
+  const [assets, setAssets] = useState<Asset[]>(fetchedAssets);
   return (
     <div className={styles.container}>
       <Head>
@@ -33,7 +34,12 @@ const Home: NextPage<Props> = ({ assets }) => {
             />
           </div>
         </div>
-        <AssetBrowser assets={assets} pendingUpload={pendingUpload} />
+        <AssetBrowser
+          assets={assets}
+          setAssets={setAssets}
+          pendingUpload={pendingUpload}
+          setPendingUpload={setPendingUpload}
+        />
       </main>
     </div>
   );
@@ -44,11 +50,11 @@ export default Home;
 export const getStaticProps = async () => {
   const client = newS3Client();
 
-  const assets = await getAssets(client);
+  const fetchedAssets = await getAssets(client);
 
   return {
     props: {
-      assets,
+      fetchedAssets,
     },
   };
 };

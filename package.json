@@ -11,6 +11,7 @@
     "@aws-sdk/client-s3": "^3.44.0",
     "@react-three/fiber": "^7.0.24",
     "next": "12.0.7",
+    "next-s3-upload": "^0.1.7",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-dropzone": "^11.4.2",
