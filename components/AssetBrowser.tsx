@@ -76,15 +76,15 @@ const AssetBrowser: React.FC<Props> = ({
   return (
     <div className={styles.container}>
       {pendingUpload ? (
-        <div className={styles.confirmUpload}>
-          <h3>Upload details</h3>
-          <form
-            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-              e.preventDefault();
-              //@ts-ignore
-              upload(e.target.filename.value);
-            }}
-          >
+        <form
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            //@ts-ignore
+            upload(e.target.filename.value);
+          }}
+        >
+          <div className={styles.confirmUpload}>
+            <h3>Upload details</h3>
             <p>
               <b>Size: </b>
               {`${sizeInMB(pendingUpload.size)} MB`}
@@ -99,8 +99,8 @@ const AssetBrowser: React.FC<Props> = ({
             <button type="submit" disabled={uploading}>
               Confirm
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       ) : (
         <AssetList
           assets={assets}
