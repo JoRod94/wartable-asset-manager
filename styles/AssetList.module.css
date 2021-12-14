@@ -6,6 +6,7 @@
   overflow: scroll;
 }
 
+.selectedListItem,
 .assetListItem {
   padding: 15px;
   border: 2px solid black;
@@ -15,7 +16,12 @@
   justify-content: space-between;
 }
 
+.selectedListItem:hover,
 .assetListItem:hover {
-  background: #999999;
+  opacity: 0.5;
   cursor: pointer;
+}
+
+.selectedListItem {
+  background: #dddddd;
 }

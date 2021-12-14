@@ -20,3 +20,8 @@ export const asyncLoad = (loader: STLLoader, name: string) => {
     );
   });
 };
+
+export const sizeInMB = (size?: number) => {
+  const mbSize = size ? size / 1000000 : 0;
+  return Math.round(mbSize * 100) / 100;
+};

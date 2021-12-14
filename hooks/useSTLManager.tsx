@@ -4,9 +4,7 @@ import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { BufferGeometry } from "three";
 import { Asset, GeometryRecord } from "../types";
 
-const useSTLManager = (
-  assets: Array<Asset>
-) => {
+const useSTLManager = (assets: Array<Asset>, pendingUpload?: string) => {
   const [loadedGeometries, setLoadedGeometries] = useState<GeometryRecord>({});
 
   const [hasLoaded, setHasLoaded] = useState<boolean>(false);
@@ -35,11 +33,20 @@ const useSTLManager = (
         }
       }
 
+      if (pendingUpload) {
+        const loadedFile = (await asyncLoad(
+          loader,
+          pendingUpload
+        )) as BufferGeometry;
+
+        result["pendingUpload"] = loadedFile;
+      }
+
       setLoadedGeometries(result);
       setHasLoaded(true);
     };
     assets && load();
-  }, [JSON.stringify(assets)]);
+  }, [JSON.stringify(assets), pendingUpload]);
 
   return {
     loadedGeometries,

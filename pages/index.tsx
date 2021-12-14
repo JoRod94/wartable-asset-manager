@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import { getAssets, newS3Client } from "../api/s3";
 import AssetBrowser from "../components/AssetBrowser";
+import FileUploader from "../components/FileUploader";
 import styles from "../styles/Home.module.css";
 import { Asset } from "../types";
 
@@ -10,6 +12,7 @@ type Props = {
 };
 
 const Home: NextPage<Props> = ({ assets }) => {
+  const [pendingUpload, setPendingUpload] = useState<File | undefined>();
   return (
     <div className={styles.container}>
       <Head>
@@ -21,18 +24,16 @@ const Home: NextPage<Props> = ({ assets }) => {
       <main className={styles.main}>
         <div className={styles.topInfo}>
           <h1>Wartable</h1>
-          <h2>Asset Manager</h2>
-          <button
-            onClick={() => {
-              window.alert("New Asset");
-            }}
-          >
-            New Asset
-          </button>
+          <div className={styles.subRow}>
+            {" "}
+            <h2>Asset Manager</h2>
+            <FileUploader
+              setPendingUpload={setPendingUpload}
+              pendingUpload={pendingUpload}
+            />
+          </div>
         </div>
-        <AssetBrowser
-          assets={assets}
-        />
+        <AssetBrowser assets={assets} pendingUpload={pendingUpload} />
       </main>
     </div>
   );

@@ -6,4 +6,17 @@
   flex-direction: row;
   overflow: hidden;
   padding: 10px;
+  flex-grow: 1;
+}
+
+.confirmUpload {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 300px;
+  flex-grow: 1;
+  border: 2px solid black;
+  border-radius: 3px;
 }

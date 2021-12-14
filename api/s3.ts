@@ -1,5 +1,6 @@
 import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
 import { Asset } from "../types";
+import { sizeInMB } from "../utils";
 
 export const newS3Client = () => {
   return new S3Client({
@@ -20,8 +21,7 @@ export const getAssets = async (client: S3Client): Promise<Asset[] | null> => {
 
   const assets = response.Contents
     ? response.Contents.map((value, _index, _array) => {
-        const size = value.Size ? value.Size / 1000000 : 0;
-        const roundedSize = Math.round(size * 100) / 100;
+        const roundedSize = sizeInMB(value.Size);
         const name = value.Key ? value.Key.split(".")[0] : "not_found";
         return {
           name,
@@ -31,4 +31,13 @@ export const getAssets = async (client: S3Client): Promise<Asset[] | null> => {
       })
     : null;
   return assets;
+};
+
+export const uploadAsset = async (
+  client: S3Client,
+  file: File,
+  name: string
+): Promise<Asset | null> => {
+  console.log(file.size);
+  return null;
 };

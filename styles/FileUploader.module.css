@@ -1,0 +1,22 @@
+.container {
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 400px;
+}
+
+.container:hover {
+  background: #999999;
+}
+
+.inProgress {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
