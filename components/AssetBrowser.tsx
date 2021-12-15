@@ -24,6 +24,8 @@ const AssetBrowser: React.FC<Props> = ({
   const [uploading, setUploading] = useState<boolean>(false);
   const [assetsToLoad, setAssetsToLoad] = useState<Asset[]>([]);
   const [pendingUploadURI, setPendingUploadURI] = useState<string>();
+  const [json, setJSON] = useState<string>();
+  const [showJSON, setShowJSON] = useState<boolean>(false);
   const { loadedGeometries, hasLoaded } = useSTLManager(
     assetsToLoad,
     pendingUploadURI
@@ -36,6 +38,16 @@ const AssetBrowser: React.FC<Props> = ({
     }
   }, [pendingUpload]);
 
+  useEffect(() => {
+    setJSON(
+      JSON.stringify(
+        assets.map((a) => ({ name: a.name, uri: a.uri })),
+        null,
+        4
+      )
+    );
+  }, [assets]);
+
   const selectAsset = (assetName: string, overrideAsset?: Asset) => {
     const loadedGeometry = loadedGeometries[assetName];
     const asset = overrideAsset || assets.find((a) => a.name == assetName);
@@ -47,6 +59,7 @@ const AssetBrowser: React.FC<Props> = ({
     if (!loadedGeometry) {
       setAssetsToLoad((prev) => [...prev, asset]);
     }
+    setShowJSON(false);
     setSelectedAsset(assetName);
   };
 
@@ -75,51 +88,65 @@ const AssetBrowser: React.FC<Props> = ({
 
   return (
     <div className={styles.container}>
-      {pendingUpload ? (
-        <form
-          onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-            e.preventDefault();
-            //@ts-ignore
-            upload(e.target.filename.value);
-          }}
-        >
-          <div className={styles.confirmUpload}>
-            <h3>Upload details</h3>
-            <p>
-              <b>Size: </b>
-              {`${sizeInMB(pendingUpload.size)} MB`}
-            </p>
-            <label htmlFor="upload-name">Asset Name</label>
-            <input
-              id="upload-name"
-              type="text"
-              name="filename"
-              required
-            ></input>
-            <button type="submit" disabled={uploading}>
-              Confirm
-            </button>
+      <button
+        className={styles.jsonButton}
+        onClick={() => setShowJSON((prev) => !prev)}
+      >
+        {showJSON ? "Hide JSON" : "Show JSON"}
+      </button>
+      <div className={styles.panels}>
+        {pendingUpload ? (
+          <form
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+              e.preventDefault();
+              //@ts-ignore
+              upload(e.target.filename.value);
+            }}
+          >
+            <div className={styles.confirmUpload}>
+              <h3>Upload details</h3>
+              <p>
+                <b>Size: </b>
+                {`${sizeInMB(pendingUpload.size)} MB`}
+              </p>
+              <label htmlFor="upload-name">Asset Name</label>
+              <input
+                id="upload-name"
+                type="text"
+                name="filename"
+                required
+              ></input>
+              <button type="submit" disabled={uploading}>
+                Confirm
+              </button>
+            </div>
+          </form>
+        ) : (
+          <AssetList
+            assets={assets}
+            selectAsset={selectAsset}
+            selectedAsset={selectedAsset}
+          />
+        )}
+        {showJSON ? (
+          <div className={styles.jsonViewer}>
+            <pre>{json}</pre>
           </div>
-        </form>
-      ) : (
-        <AssetList
-          assets={assets}
-          selectAsset={selectAsset}
-          selectedAsset={selectedAsset}
-        />
-      )}
-      {hasLoaded && (
-        <AssetViewer
-          isLoading={!hasLoaded}
-          geometry={
-            pendingUpload
-              ? loadedGeometries["pendingUpload"]
-              : selectedAsset
-              ? loadedGeometries[selectedAsset]
-              : undefined
-          }
-        />
-      )}
+        ) : (
+          hasLoaded && (
+            <AssetViewer
+              isLoading={!hasLoaded}
+              geometry={
+                pendingUpload
+                  ? loadedGeometries["pendingUpload"]
+                  : selectedAsset
+                  ? loadedGeometries[selectedAsset]
+                  : undefined
+              }
+            />
+          )
+        )}
+      </div>
     </div>
   );
 };
