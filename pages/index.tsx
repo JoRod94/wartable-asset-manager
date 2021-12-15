@@ -47,7 +47,7 @@ const Home: NextPage<Props> = ({ fetchedAssets }) => {
 
 export default Home;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const client = newS3Client();
 
   const fetchedAssets = await getAssets(client);
