@@ -2,12 +2,11 @@
 
 ## Description
 
+**Note:** Want to know more about Wartable? Find out [here](https://www.jorod.dev/projects/wartable/)
+
 Wartable Asset Manager is a helper app that I use to manage the models in my 3D tabletop project, [Wartable](https://wartable.herokuapp.com/) (not open source yet). Since Wartable doesn't have its own assets, the user is supposed to provide their own content URLs. If the user has their assets in an S3 bucket, this app is supposed to make it easier to view and edit its contents, and get the final JSON input to use in Wartable.
 
 These models are in the STL format. This app should let the user see their STL models, upload new ones, delete models (WIP), and rename them (WIP).
-
-#### Note
-Want to know more about Wartable? Find out [here](https://www.jorod.dev/projects/wartable/)
 
 ![Screenshot from 2022-01-09 00-21-38](https://user-images.githubusercontent.com/6796936/148664418-002601d6-bf78-4b06-90dd-bc462b350799.png)
 ![Screenshot from 2022-01-09 00-31-08](https://user-images.githubusercontent.com/6796936/148664570-d50f9c95-d05a-4427-aae7-5a44ea62cbcd.png)
